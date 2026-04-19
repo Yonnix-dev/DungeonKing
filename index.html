@@ -1,167 +1,186 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚔️ Dungeon King</title>
-<link rel="stylesheet" href="style.css?v=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ Dungeon King</title>
+    <link rel="stylesheet" href="style.css?v=1">
 </head>
 <body>
 
 <!-- LOADING -->
 <div id="loading-screen">
-  <div class="load-content">
-    <div class="load-icon">⚔️</div>
-    <h1>DUNGEON KING</h1>
-    <div class="load-bar"><div id="load-fill"></div></div>
-  </div>
+    <div class="load-content">
+        <div class="load-icon">⚔️</div>
+        <h1>DUNGEON KING</h1>
+        <div class="load-bar"><div id="load-fill"></div></div>
+    </div>
 </div>
 
 <!-- AUTH -->
 <div id="auth-screen" class="hidden">
-  <div class="auth-box">
-    <div class="auth-logo">⚔️</div>
-    <h2>DUNGEON KING</h2>
-    <p class="auth-sub">Forge ta légende dans les ténèbres</p>
-    <input type="text" id="auth-user" placeholder="Pseudo" maxlength="20">
-    <input type="password" id="auth-pass" placeholder="Mot de passe" maxlength="30">
-    <button class="btn-primary" onclick="authLogin()">Entrer dans le Donjon</button>
-    <p class="auth-hint">Nouveau ? Un compte sera créé automatiquement.</p>
-  </div>
+    <div class="auth-box">
+        <div class="auth-logo">⚔️</div>
+        <h2>DUNGEON KING</h2>
+        <p class="auth-sub">Forge ta légende dans les ténèbres</p>
+        <input type="text" id="auth-user" placeholder="Pseudo" maxlength="20">
+        <input type="password" id="auth-pass" placeholder="Mot de passe" maxlength="30">
+        <button class="btn-primary" onclick="authLogin()">Entrer dans le Donjon</button>
+        <p class="auth-hint">Nouveau ? Un compte sera créé automatiquement.</p>
+    </div>
 </div>
 
 <!-- GAME -->
 <div id="game-screen" class="hidden">
-
-  <!-- TOP BAR -->
-  <div id="topbar">
-    <div class="tb-left">
-      <span id="tb-name">Hero</span>
-      <span id="tb-class" class="tb-badge">Guerrier</span>
+    <!-- TOP BAR -->
+    <div id="topbar">
+        <div class="tb-left">
+            <span id="tb-name">Hero</span>
+            <span id="tb-class" class="tb-badge">Guerrier</span>
+        </div>
+        <div class="tb-center">
+            <div class="tb-stat"><span>⚔️</span><span id="tb-floor">Donjon 1</span></div>
+            <div class="tb-stat"><span>⭐</span><span id="tb-xp">0 XP</span></div>
+            <div class="tb-stat"><span>🏆</span><span id="tb-level">Niv. 1</span></div>
+            <div class="tb-stat"><span>💰</span><span id="tb-gold">0</span></div>
+        </div>
+        <div class="tb-right">
+            <button class="tb-btn" onclick="showTab('dungeon')">⚔️ Donjon</button>
+            <button class="tb-btn" onclick="showTab('shop')">🏪 Shop</button>
+            <button class="tb-btn" onclick="showTab('inventory')">🎒 Inventaire</button>
+            <button class="tb-btn" onclick="showTab('profile')">👤 Profil</button>
+            <button id="admin-btn" class="tb-btn hidden" onclick="openAdmin()">⚙️ ADMIN</button>
+            <button class="tb-btn tb-logout" onclick="logout()">🚪</button>
+        </div>
     </div>
-    <div class="tb-center">
-      <div class="tb-stat"><span>⚔️</span><span id="tb-floor">Donjon 1</span></div>
-      <div class="tb-stat"><span>⭐</span><span id="tb-xp">0 XP</span></div>
-      <div class="tb-stat"><span>🏆</span><span id="tb-level">Niv. 1</span></div>
-      <div class="tb-stat"><span>💰</span><span id="tb-gold">0</span></div>
-    </div>
-    <div class="tb-right">
-      <button class="tb-btn" onclick="showTab('dungeon')">⚔️ Donjon</button>
-      <button class="tb-btn" onclick="showTab('shop')">🏪 Shop</button>
-      <button class="tb-btn" onclick="showTab('inventory')">🎒 Inventaire</button>
-      <button class="tb-btn" onclick="showTab('profile')">👤 Profil</button>
-      <button class="tb-btn tb-logout" onclick="logout()">🚪</button>
-    </div>
-  </div>
 
-  <!-- TABS -->
-  <div id="tab-dungeon" class="tab-content">
-    <div id="dungeon-area">
-      <div id="battle-scene">
+    <!-- TABS -->
+    <div id="tab-dungeon" class="tab-content">
+        <div id="dungeon-area">
+            <div id="battle-scene">
+                <!-- PLAYER SIDE -->
+                <div class="combatant player-side">
+                    <div id="player-sprite" class="sprite"></div>
+                    <div class="combatant-info">
+                        <div class="c-name" id="p-name">Hero</div>
+                        <div class="hp-bar-wrap">
+                            <div class="hp-bar" id="p-hp-bar"></div>
+                        </div>
+                        <div class="c-hp" id="p-hp">100/100</div>
+                        <div class="c-stats" id="p-stats">ATK: 10 | DEF: 5</div>
+                    </div>
+                </div>
 
-        <!-- PLAYER SIDE -->
-        <div class="combatant player-side">
-          <div id="player-sprite" class="sprite"></div>
-          <div class="combatant-info">
-            <div class="c-name" id="p-name">Hero</div>
-            <div class="hp-bar-wrap">
-              <div class="hp-bar" id="p-hp-bar"></div>
+                <!-- BATTLE LOG -->
+                <div id="battle-center">
+                    <div id="floor-badge">🏰 DONJON 1 - SALLE 1</div>
+                    <div id="battle-log"></div>
+                    <div id="battle-actions">
+                        <button class="action-btn" id="btn-attack" onclick="doAttack()">⚔️ Attaquer</button>
+                        <button class="action-btn" id="btn-skill" onclick="doSkill()">✨ Compétence</button>
+                        <button class="action-btn" id="btn-flee" onclick="doFlee()">🏃 Fuir</button>
+                        <button class="action-btn hidden" id="btn-next" onclick="nextRoom()">▶️ Pièce suivante</button>
+                        <button class="action-btn btn-boss hidden" id="btn-boss" onclick="nextRoom()">⚠️ Affronter le Boss</button>
+                    </div>
+                    <div id="xp-bar-wrap">
+                        <div id="xp-bar"></div>
+                        <span id="xp-label">0 / 100 XP</span>
+                    </div>
+                </div>
+
+                <!-- ENEMY SIDE -->
+                <div class="combatant enemy-side">
+                    <div id="enemy-sprite" class="sprite"></div>
+                    <div class="combatant-info">
+                        <div class="c-name" id="e-name">Goblin</div>
+                        <div class="hp-bar-wrap">
+                            <div class="hp-bar enemy-hp" id="e-hp-bar"></div>
+                        </div>
+                        <div class="c-hp" id="e-hp">50/50</div>
+                        <div class="c-stats" id="e-stats">ATK: 5 | DEF: 2</div>
+                    </div>
+                </div>
             </div>
-            <div class="c-hp" id="p-hp">100/100</div>
-            <div class="c-stats" id="p-stats">ATK: 10 | DEF: 5</div>
-          </div>
         </div>
+    </div>
 
-        <!-- BATTLE LOG -->
-        <div id="battle-center">
-          <div id="floor-badge">🏰 DONJON 1 - SALLE 1</div>
-          <div id="battle-log"></div>
-          <div id="battle-actions">
-            <button class="action-btn" id="btn-attack" onclick="doAttack()">⚔️ Attaquer</button>
-            <button class="action-btn" id="btn-skill" onclick="doSkill()">✨ Compétence</button>
-            <button class="action-btn" id="btn-flee" onclick="doFlee()">🏃 Fuir</button>
-            <button class="action-btn hidden" id="btn-next" onclick="nextRoom()">▶️ Pièce suivante</button>
-            <button class="action-btn btn-boss hidden" id="btn-boss" onclick="nextRoom()">⚠️ Affronter le Boss</button>
-          </div>
-          <div id="xp-bar-wrap">
-            <div id="xp-bar"></div>
-            <span id="xp-label">0 / 100 XP</span>
-          </div>
+    <div id="tab-shop" class="tab-content hidden">
+        <div class="panel-title">🏪 Boutique</div>
+        <div id="shop-tabs">
+            <button class="shop-tab-btn active" onclick="showShopTab('weapons')">⚔️ Armes</button>
+            <button class="shop-tab-btn" onclick="showShopTab('armor')">🛡️ Armures</button>
+            <button class="shop-tab-btn" onclick="showShopTab('potions')">🧪 Potions</button>
+            <button class="shop-tab-btn" onclick="showShopTab('skins')">🎨 Skins</button>
         </div>
+        <div id="shop-items"></div>
+    </div>
 
-        <!-- ENEMY SIDE -->
-        <div class="combatant enemy-side">
-          <div id="enemy-sprite" class="sprite"></div>
-          <div class="combatant-info">
-            <div class="c-name" id="e-name">Goblin</div>
-            <div class="hp-bar-wrap">
-              <div class="hp-bar enemy-hp" id="e-hp-bar"></div>
-            </div>
-            <div class="c-hp" id="e-hp">50/50</div>
-            <div class="c-stats" id="e-stats">ATK: 5 | DEF: 2</div>
-          </div>
+    <div id="tab-inventory" class="tab-content hidden">
+        <div class="panel-title">🎒 Inventaire & Équipement</div>
+        <div id="equipment-slots">
+            <div class="equip-slot" id="slot-weapon">⚔️<br><small>Arme</small></div>
+            <div class="equip-slot" id="slot-armor">🛡️<br><small>Armure</small></div>
+            <div class="equip-slot" id="slot-helm">⛑️<br><small>Casque</small></div>
+            <div class="equip-slot" id="slot-ring">💍<br><small>Anneau</small></div>
         </div>
-
-      </div>
+        <div class="panel-title" style="margin-top:1rem">Sac</div>
+        <div id="inventory-grid"></div>
     </div>
-  </div>
 
-  <div id="tab-shop" class="tab-content hidden">
-    <div class="panel-title">🏪 Boutique</div>
-    <div id="shop-tabs">
-      <button class="shop-tab-btn active" onclick="showShopTab('weapons')">⚔️ Armes</button>
-      <button class="shop-tab-btn" onclick="showShopTab('armor')">🛡️ Armures</button>
-      <button class="shop-tab-btn" onclick="showShopTab('potions')">🧪 Potions</button>
-      <button class="shop-tab-btn" onclick="showShopTab('skins')">🎨 Skins</button>
+    <div id="tab-profile" class="tab-content hidden">
+        <div class="panel-title">👤 Profil du Héros</div>
+        <div id="profile-content"></div>
+        <div class="panel-title" style="margin-top:1.5rem">🏅 Succès</div>
+        <div id="achievements-grid"></div>
     </div>
-    <div id="shop-items"></div>
-  </div>
-
-  <div id="tab-inventory" class="tab-content hidden">
-    <div class="panel-title">🎒 Inventaire & Équipement</div>
-    <div id="equipment-slots">
-      <div class="equip-slot" id="slot-weapon">⚔️<br><small>Arme</small></div>
-      <div class="equip-slot" id="slot-armor">🛡️<br><small>Armure</small></div>
-      <div class="equip-slot" id="slot-helm">⛑️<br><small>Casque</small></div>
-      <div class="equip-slot" id="slot-ring">💍<br><small>Anneau</small></div>
-    </div>
-    <div class="panel-title" style="margin-top:1rem">Sac</div>
-    <div id="inventory-grid"></div>
-  </div>
-
-  <div id="tab-profile" class="tab-content hidden">
-    <div class="panel-title">👤 Profil du Héros</div>
-    <div id="profile-content"></div>
-    <div class="panel-title" style="margin-top:1.5rem">🏅 Succès</div>
-    <div id="achievements-grid"></div>
-  </div>
-
 </div>
 
 <!-- LEVEL UP MODAL -->
 <div id="levelup-modal" class="modal-overlay hidden">
-  <div class="modal-box levelup-box">
-    <div class="levelup-icon">⬆️</div>
-    <h2>NIVEAU SUPÉRIEUR !</h2>
-    <p id="levelup-text">Tu es maintenant niveau 2 !</p>
-    <p id="levelup-bonuses"></p>
-    <button class="btn-primary" onclick="closeLevelUp()">Continuer l'aventure</button>
-  </div>
+    <div class="modal-box levelup-box">
+        <div class="levelup-icon">⬆️</div>
+        <h2>NIVEAU SUPÉRIEUR !</h2>
+        <p id="levelup-text">Tu es maintenant niveau 2 !</p>
+        <p id="levelup-bonuses"></p>
+        <button class="btn-primary" onclick="closeLevelUp()">Continuer l'aventure</button>
+    </div>
 </div>
 
 <!-- GAME OVER MODAL -->
 <div id="gameover-modal" class="modal-overlay hidden">
-  <div class="modal-box">
-    <div style="font-size:4rem">💀</div>
-    <h2>GAME OVER</h2>
-    <p id="gameover-text">Tu as été vaincu...</p>
-    <button class="btn-primary" onclick="respawn()">Réapparaître (Donjon 1)</button>
-  </div>
+    <div class="modal-box">
+        <div style="font-size:4rem">💀</div>
+        <h2>GAME OVER</h2>
+        <p id="gameover-text">Tu as été vaincu...</p>
+        <button class="btn-primary" onclick="respawn()">Réapparaître (Donjon 1)</button>
+    </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div id="admin-modal" class="modal-overlay hidden">
+    <div class="modal-box admin-box">
+        <button class="btn-close" onclick="closeAdmin()">×</button>
+        <h2>Panel Admin</h2>
+        <div class="admin-content">
+            <table id="admin-table">
+                <thead>
+                    <tr>
+                        <th>Joueur</th>
+                        <th>💰 Or</th>
+                        <th>⭐ XP</th>
+                        <th>🏆 Niv.</th>
+                        <th>🔑 Pass</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-tbody"></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- TOAST -->
 <div id="toast-container"></div>
 
-<script src="app.js?v=1"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
